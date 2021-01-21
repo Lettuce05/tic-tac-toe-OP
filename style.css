@@ -1,0 +1,52 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  background-color: #f0f0f0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin-bottom: 30px;
+}
+
+.title > img {
+  width: 150px;
+  height: auto;
+}
+
+.start {
+  display: flex;
+  flex-direction: column;
+}
+.start > button {
+  padding: 10px 30px;
+  border-radius: 10px;
+  border: none;
+  background: rgb(14, 87, 250);
+  background: linear-gradient(
+    90deg,
+    rgba(14, 87, 250, 1) 0%,
+    rgba(142, 241, 223, 1) 100%
+  );
+  color: #fff;
+  font-family: "Noto Sans JP", sans-serif;
+  letter-spacing: 4px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.start > button:hover {
+  background: linear-gradient(
+    90deg,
+    rgb(12, 73, 204) 0%,
+    rgb(112, 189, 175) 100%
+  );
+}
