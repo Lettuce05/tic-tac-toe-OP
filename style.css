@@ -42,7 +42,7 @@
     rgba(142, 241, 223, 1) 100%
   );
   color: #fff;
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: "Montserrat", sans-serif;
   letter-spacing: 4px;
   font-size: 16px;
   margin-bottom: 20px;
@@ -113,4 +113,25 @@
   width: 80px;
   height: auto;
   transition: all 0.3s;
+}
+
+/* game over screen styles */
+.gameOver {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gameOver__choices {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+.result {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  font-size: 64px;
+  margin-bottom: 30px;
+  color: rgb(5, 29, 80);
 }
