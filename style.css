@@ -49,7 +49,7 @@
   transition: all 0.3s;
 }
 
-.start > button:hover {
+.btn:hover {
   background: linear-gradient(
     90deg,
     rgb(12, 73, 204) 0%,
