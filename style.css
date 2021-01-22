@@ -8,10 +8,13 @@
   width: 100vw;
   display: flex;
   background-color: #f0f0f0;
+  background-color: white;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
+/* title styles */
 
 .title {
   margin-bottom: 30px;
@@ -20,13 +23,15 @@
 .title > img {
   width: 150px;
   height: auto;
+  transition: all 0.3s;
 }
 
+/* start selection styles */
 .start {
   display: flex;
   flex-direction: column;
 }
-.start > button {
+.btn {
   padding: 10px 30px;
   border-radius: 10px;
   border: none;
@@ -41,6 +46,7 @@
   letter-spacing: 4px;
   font-size: 16px;
   margin-bottom: 20px;
+  transition: all 0.3s;
 }
 
 .start > button:hover {
@@ -49,4 +55,62 @@
     rgb(12, 73, 204) 0%,
     rgb(112, 189, 175) 100%
   );
+}
+
+/* cpu selection styles */
+.cpu-selection {
+  display: flex;
+  flex-direction: column;
+}
+
+/* game styles */
+
+.game {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 400px;
+}
+
+.title-game {
+  display: none;
+}
+
+.playerTags {
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  font-size: 28px;
+  margin-bottom: 30px;
+  transition: all 0.3s;
+}
+
+.player-one-turn {
+  border-bottom: 8px solid rgb(12, 73, 204);
+}
+
+.player-two-turn {
+  border-bottom: 8px solid #f65812;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  grid-gap: 3px;
+  background-color: rgb(221, 221, 221);
+}
+
+.game-square {
+  height: 100px;
+  width: 100px;
+  background-color: white;
+  border: none;
+}
+
+.game-piece {
+  width: 80px;
+  height: auto;
+  transition: all 0.3s;
 }
