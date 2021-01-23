@@ -72,10 +72,6 @@
   height: 400px;
 }
 
-.title-game {
-  display: none;
-}
-
 .playerTags {
   font-family: "Montserrat", sans-serif;
   display: flex;
@@ -134,4 +130,9 @@
   font-size: 64px;
   margin-bottom: 30px;
   color: rgb(5, 29, 80);
+}
+
+/* toggle display class */
+.toggle-display {
+  display: none;
 }
