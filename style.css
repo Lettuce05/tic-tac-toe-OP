@@ -139,6 +139,6 @@
 
 @media (max-width: 600px) {
   .result {
-    font-size: 48px;
+    font-size: 10vw;
   }
 }
