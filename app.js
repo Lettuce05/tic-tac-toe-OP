@@ -6,6 +6,7 @@ const displayController = (()=>{
     const playAI = startMenu.getElementsByTagName("button")[0];
     const playFriend = startMenu.getElementsByTagName("button")[1];
     const title = document.querySelector(".title");
+    const result = document.querySelector(".result");
     
     playAI.addEventListener("click", ()=>{
         startMenu.classList.toggle("toggle-display");
@@ -21,11 +22,20 @@ const displayController = (()=>{
         game.startGame(player1, player2);
     });
 
-
+    const gameOver = () => {
+        gameScreen.classList.toggle("toggle-display");
+        if(game.getActiveTag() == "X"){
+            result.innerText = `${gameBoard.player1Tag.innerText} Wins!`;
+        } else {
+            result.innerText = `${gameBoard.player2Tag.innerText} Wins!`;
+        }
+        gameOverScreen.classList.toggle("toggle-display");
+    }
 
     return {
         startMenu,
         cpuMenu,
+        gameOver,
     };
 })();
 
@@ -40,7 +50,11 @@ const gameBoard = (()=>{
         gameSpace.addEventListener("click", ()=>{
             addNewPiece(index, game.getActiveTag());
             gameSpace.disabled = true;
+            game.modifyGame(index);
             //TODO: Check if someone won
+            if(game.didWin(game.getActiveTag())){
+                displayController.gameOver();
+            }
             changeActivePlayer();
             game.changeActiveTag();
         });
@@ -87,9 +101,34 @@ const game = (()=>{
     const getActiveTag = () => {
         return activePlayerTag;
     }
-    const didWin = () => {
 
+    const didWin = (activeTag) => {
+        if(currentGame[0] == activeTag && currentGame[1] == activeTag && currentGame[2] == activeTag){
+            return true;
+        } else if(currentGame[3] == activeTag && currentGame[4] == activeTag && currentGame[5] == activeTag){
+            return true;
+        } else if(currentGame[6] == activeTag && currentGame[7] == activeTag && currentGame[8] == activeTag){
+            return true;
+        } else if(currentGame[0] == activeTag && currentGame[3] == activeTag && currentGame[6] == activeTag){
+            return true;
+        } else if(currentGame[1] == activeTag && currentGame[4] == activeTag && currentGame[7] == activeTag){
+            return true;
+        } else if(currentGame[2] == activeTag && currentGame[5] == activeTag && currentGame[8] == activeTag){
+            return true;
+        } else if(currentGame[0] == activeTag && currentGame[4] == activeTag && currentGame[8] == activeTag){
+            return true;
+        } else if(currentGame[2] == activeTag && currentGame[4] == activeTag && currentGame[6] == activeTag){
+            return true;
+        } else {
+            return false;
+        }
     }
+
+    const modifyGame = (index) => {
+        currentGame[index] = activePlayerTag;
+        console.log(currentGame);
+    }
+
     const startGame = (player1, player2) => {
         currentGame = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
         gameBoard.changeTagName(gameBoard.player1Tag, player1.name);
@@ -114,6 +153,7 @@ const game = (()=>{
         didWin,
         changeActiveTag,
         getActiveTag,
+        modifyGame,
     };
 })();
 

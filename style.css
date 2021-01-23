@@ -136,3 +136,9 @@
 .toggle-display {
   display: none;
 }
+
+@media (max-width: 600px) {
+  .result {
+    font-size: 48px;
+  }
+}
