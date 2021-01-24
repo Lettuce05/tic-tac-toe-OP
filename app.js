@@ -8,6 +8,7 @@ const displayController = (()=>{
     const title = document.querySelector(".title");
     const result = document.querySelector(".result");
     const mainMenu = document.querySelector(".mainMenu");
+    const restart = document.querySelector(".restart");
     
     playAI.addEventListener("click", ()=>{
         startMenu.classList.toggle("toggle-display");
@@ -25,6 +26,14 @@ const displayController = (()=>{
 
     mainMenu.addEventListener("click", ()=>{
         location.reload();
+    });
+
+    restart.addEventListener("click", ()=>{
+        gameOverScreen.classList.toggle("toggle-display");
+        gameScreen.classList.toggle("toggle-display");
+        const player1 = Player(gameBoard.player1Tag.innerText, 'X');
+        const player2 = Player(gameBoard.player2Tag.innerText, 'O');
+        game.startGame(player1, player2);
     });
 
     const gameOver = (gameResult) => {
@@ -77,6 +86,9 @@ const gameBoard = (()=>{
         gameSpaces.forEach(gameSpace => {
             while(gameSpace.firstChild) {
                 gameSpace.removeChild(gameSpace.firstChild);
+                if(gameSpace.disabled){
+                    gameSpace.disabled = false;
+                }
             }
         })
     }
