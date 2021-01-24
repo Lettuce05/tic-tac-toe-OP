@@ -7,6 +7,7 @@ const displayController = (()=>{
     const playFriend = startMenu.getElementsByTagName("button")[1];
     const title = document.querySelector(".title");
     const result = document.querySelector(".result");
+    const mainMenu = document.querySelector(".mainMenu");
     
     playAI.addEventListener("click", ()=>{
         startMenu.classList.toggle("toggle-display");
@@ -20,6 +21,10 @@ const displayController = (()=>{
         const player1 = Player('Player 1', 'X');
         const player2 = Player('Player 2', 'O');
         game.startGame(player1, player2);
+    });
+
+    mainMenu.addEventListener("click", ()=>{
+        location.reload();
     });
 
     const gameOver = (gameResult) => {
