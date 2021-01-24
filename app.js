@@ -104,7 +104,8 @@ const gameBoard = (()=>{
                     AIindex = game.normalAIMove();
                     gameSpaces[AIindex].click();
                 } else if(game.getGameDifficulty() == "Unbeatable"){
-                    // AIindex = game.unbeatableAIMove();
+                    AIindex = game.unbeatableAIMove();
+                    gameSpaces[AIindex].click();
                 }
             }
         });
@@ -230,6 +231,93 @@ const game = (()=>{
         
     }
 
+    const minimax = (newBoard, player) => {
+        let availableSpots = emptyIndexies(newBoard);
+
+        if (winning(newBoard, "X")){
+            return {score: -10};
+        } else if(winning(newBoard, "O")){
+            return {score: 10};
+        } else if(availableSpots.length === 0){
+            return {score: 0};
+        }
+
+        let moves = [];
+
+        for(let i = 0; i < availableSpots.length; i++){
+            let move = {};
+            move.index = newBoard[availableSpots[i]];
+            newBoard[availableSpots[i]] = player;
+
+            if(player == "O"){
+                let result = minimax(newBoard, "X");
+                move.score = result.score;
+            } else {
+                let result = minimax(newBoard, "O");
+                move.score = result.score;
+            }
+
+            newBoard[availableSpots[i]] = move.index;
+
+            moves.push(move);
+        }
+
+        let bestMove;
+        if(player === "O"){
+            let bestScore = -10000;
+            for(let i = 0; i < moves.length; i++){
+                if(moves[i].score > bestScore){
+                    bestScore = moves[i].score;
+                    bestMove = i;
+                }
+            }
+        } else {
+            let bestScore = 10000;
+            for(let i = 0; i < moves.length; i++){
+                if(moves[i].score < bestScore){
+                    bestScore = moves[i].score;
+                    bestMove = i;
+                }
+            }
+        }
+
+        return moves[bestMove];
+    }
+
+    const emptyIndexies = (board) => {
+        return  board.filter(s => s != "O" && s != "X");
+    }
+
+    const winning = (board, player) =>{
+        if(
+            (board[0] == player && board[1] == player && board[2] == player) ||
+            (board[3] == player && board[4] == player && board[5] == player) ||
+            (board[6] == player && board[7] == player && board[8] == player) ||
+            (board[0] == player && board[3] == player && board[6] == player) ||
+            (board[1] == player && board[4] == player && board[7] == player) ||
+            (board[2] == player && board[5] == player && board[8] == player) ||
+            (board[0] == player && board[4] == player && board[8] == player) ||
+            (board[2] == player && board[4] == player && board[6] == player)
+            ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const unbeatableAIMove = () => {
+        let currentCopy = [];
+        currentGame.forEach((space,index) =>{
+            if(space == " "){
+                currentCopy.push(index);
+            } else {
+                currentCopy.push(space);
+            }
+        });
+        let bestSpot = minimax(currentCopy, "O");
+        return bestSpot.index;
+    }
+
     return {
         activePlayerTag,
         startGame,
@@ -241,7 +329,7 @@ const game = (()=>{
         getGameMode,
         getGameDifficulty,
         normalAIMove,
-
+        unbeatableAIMove,
     };
 })();
 
