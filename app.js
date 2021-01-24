@@ -9,6 +9,23 @@ const displayController = (()=>{
     const result = document.querySelector(".result");
     const mainMenu = document.querySelector(".mainMenu");
     const restart = document.querySelector(".restart");
+    const cpuDifficulty = Array.from(cpuMenu.getElementsByTagName("button"));
+
+    cpuDifficulty.forEach((difficulty, index) =>{
+        difficulty.addEventListener('click', ()=>{
+            cpuMenu.classList.toggle("toggle-display");
+            title.classList.toggle("toggle-display");
+            gameScreen.classList.toggle("toggle-display");
+            const player1 = Player('Player 1', 'X');
+            const player2 = Player('AI', 'O');
+            if(index == 0){
+                game.startGame(player1, player2, "AI", "Normal");
+            } else {
+                game.startGame(player1, player2, "AI", "Unbeatable");
+            }
+            
+        });
+    });
     
     playAI.addEventListener("click", ()=>{
         startMenu.classList.toggle("toggle-display");
@@ -21,7 +38,7 @@ const displayController = (()=>{
         gameScreen.classList.toggle("toggle-display");
         const player1 = Player('Player 1', 'X');
         const player2 = Player('Player 2', 'O');
-        game.startGame(player1, player2);
+        game.startGame(player1, player2, "Multiplayer", "Normal");
     });
 
     mainMenu.addEventListener("click", ()=>{
@@ -33,7 +50,7 @@ const displayController = (()=>{
         gameScreen.classList.toggle("toggle-display");
         const player1 = Player(gameBoard.player1Tag.innerText, 'X');
         const player2 = Player(gameBoard.player2Tag.innerText, 'O');
-        game.startGame(player1, player2);
+        game.startGame(player1, player2, game.getGameMode(), game.getGameDifficulty());
     });
 
     const gameOver = (gameResult) => {
@@ -73,12 +90,23 @@ const gameBoard = (()=>{
 
             if(game.didWin(game.getActiveTag())){
                 displayController.gameOver("Winner");
+                return
             } else if(game.tieGame()){
                 displayController.gameOver("Tie");
+                return
             }
 
             changeActivePlayer();
             game.changeActiveTag();
+            if(game.getGameMode() == "AI" && game.getActiveTag() == "O"){
+                let AIindex;
+                if(game.getGameDifficulty() == "Normal"){
+                    AIindex = game.normalAIMove();
+                    gameSpaces[AIindex].click();
+                } else if(game.getGameDifficulty() == "Unbeatable"){
+                    // AIindex = game.unbeatableAIMove();
+                }
+            }
         });
     })
     
@@ -122,6 +150,12 @@ const gameBoard = (()=>{
 const game = (()=>{
     let currentGame = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
     let activePlayerTag = "X";
+    let gameMode = "Multiplayer";
+    let gameDifficulty = "Normal";
+
+    const getGameMode = () => gameMode;
+
+    const getGameDifficulty = () => gameDifficulty;
 
     const getActiveTag = () => {
         return activePlayerTag;
@@ -163,7 +197,7 @@ const game = (()=>{
         currentGame[index] = activePlayerTag;
     }
 
-    const startGame = (player1, player2) => {
+    const startGame = (player1, player2, mode, difficulty) => {
         currentGame = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
         gameBoard.changeTagName(gameBoard.player1Tag, player1.name);
         gameBoard.changeTagName(gameBoard.player2Tag, player2.name);
@@ -172,6 +206,8 @@ const game = (()=>{
             gameBoard.changeActivePlayer();
         }
         gameBoard.clearGameBoard();
+        gameMode = mode;
+        gameDifficulty = difficulty;
     }
 
     const changeActiveTag = () => {
@@ -181,6 +217,19 @@ const game = (()=>{
             activePlayerTag = "X";
         }
     }
+
+    const normalAIMove = () => {
+        let availableSpaces = [];
+        currentGame.forEach((gameSpace, index) => {
+            if(gameSpace == " "){
+                availableSpaces.push(index);
+            }
+        });
+
+        return availableSpaces[Math.floor(Math.random()*availableSpaces.length)];
+        
+    }
+
     return {
         activePlayerTag,
         startGame,
@@ -189,6 +238,10 @@ const game = (()=>{
         getActiveTag,
         modifyGame,
         tieGame,
+        getGameMode,
+        getGameDifficulty,
+        normalAIMove,
+
     };
 })();
 
