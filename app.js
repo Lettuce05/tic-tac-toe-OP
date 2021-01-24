@@ -22,13 +22,18 @@ const displayController = (()=>{
         game.startGame(player1, player2);
     });
 
-    const gameOver = () => {
+    const gameOver = (gameResult) => {
         gameScreen.classList.toggle("toggle-display");
-        if(game.getActiveTag() == "X"){
-            result.innerText = `${gameBoard.player1Tag.innerText} Wins!`;
+        if(gameResult == "Tie"){
+            result.innerText = "Tie Game!";
         } else {
-            result.innerText = `${gameBoard.player2Tag.innerText} Wins!`;
+            if(game.getActiveTag() == "X"){
+                result.innerText = `${gameBoard.player1Tag.innerText} Wins!`;
+            } else {
+                result.innerText = `${gameBoard.player2Tag.innerText} Wins!`;
+            }
         }
+        
         gameOverScreen.classList.toggle("toggle-display");
     }
 
@@ -51,10 +56,13 @@ const gameBoard = (()=>{
             addNewPiece(index, game.getActiveTag());
             gameSpace.disabled = true;
             game.modifyGame(index);
-            //TODO: Check if someone won
+
             if(game.didWin(game.getActiveTag())){
-                displayController.gameOver();
+                displayController.gameOver("Winner");
+            } else if(game.tieGame()){
+                displayController.gameOver("Tie");
             }
+
             changeActivePlayer();
             game.changeActiveTag();
         });
@@ -102,6 +110,16 @@ const game = (()=>{
         return activePlayerTag;
     }
 
+    const tieGame = () => {
+        isFilled = true;
+        currentGame.forEach(gameSpace => {
+            if(gameSpace == " "){
+                isFilled = false;
+            }
+        });
+        return isFilled;
+    }
+
     const didWin = (activeTag) => {
         if(currentGame[0] == activeTag && currentGame[1] == activeTag && currentGame[2] == activeTag){
             return true;
@@ -126,7 +144,6 @@ const game = (()=>{
 
     const modifyGame = (index) => {
         currentGame[index] = activePlayerTag;
-        console.log(currentGame);
     }
 
     const startGame = (player1, player2) => {
@@ -154,6 +171,7 @@ const game = (()=>{
         changeActiveTag,
         getActiveTag,
         modifyGame,
+        tieGame,
     };
 })();
 
